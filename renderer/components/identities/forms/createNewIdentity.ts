@@ -25,9 +25,9 @@ export async function onNewIdentityFormSubmit(
   data: z.infer<typeof newIdentityFormSchema>
 ) {
   try {
-    const command = "config";
-    const subcommand = "identity";
-    const args = ["generate", data.identity_name];
+    const command = "keys";
+    const subcommand = "generate";
+    const args = [data.identity_name];
     const flags = [
       data.seed ? `--seed=${data.seed}` : "",
       data.as_secret ? "--as-secret" : "",

@@ -16,9 +16,9 @@ export async function onRemoveIdentityFormSubmit(
   data: z.infer<typeof removeIdentityFormSchema>
 ) {
   try {
-    const command = "config";
-    const subcommand = "identity";
-    const args = ["rm", data.identity_name];
+    const command = "keys";
+    const subcommand = "rm";
+    const args = [data.identity_name];
 
     await window.sorobanApi.runSorobanCommand(command, subcommand, args);
 

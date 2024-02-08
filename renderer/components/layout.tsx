@@ -25,12 +25,15 @@ import {
   SettingsIcon,
 } from "lucide-react";
 
+import { useTheme } from "next-themes";
+
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
 
   // Set initial layout and collapsed state
   const defaultLayout = [15, 85];
@@ -54,13 +57,22 @@ export default function Layout({ children }: LayoutProps) {
     >
       <div className="flex flex-col h-screen w-full">
         {" "}
-        <header className="flex flex-row items-center space-x-2 py-4 w-full justify-between border-b px-4">
-          <Image
-            src="/images/icp-logo.svg"
-            width={50}
-            height={20}
-            alt="icp_logo"
-          />
+        <header className="flex flex-row items-center space-x-4 py-4 w-full justify-between border-b px-4">
+          {theme === "dark" ? (
+            <Image
+              src="/images/soroban-dark.svg"
+              width={120}
+              height={20}
+              alt="solana_logo_dark"
+            />
+          ) : (
+            <Image
+              src="/images/soroban-light.svg"
+              width={120}
+              height={20}
+              alt="solana_logo_light"
+            />
+          )}
           <div className="flex flex-row space-x-2">
             <IdentitySwitcher />
             <ReloadToggle />

@@ -22,6 +22,14 @@ import {
   DialogTitle,
 } from "components/ui/dialog";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "components/ui/select";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -67,8 +75,7 @@ export default function ProjectModal({
   >({
     resolver: zodResolver(createNewProjectFormSchema),
     defaultValues: {
-      frontend_status: true,
-      dry_run: false,
+      include_examples: false,
     },
   });
 
@@ -103,8 +110,6 @@ export default function ProjectModal({
         data.path as string
       );
 
-      console.log(result);
-
       if (result) {
         await onAddExistingProjectForm(data).then(async () => {
           toast(projectImportSuccess(data.project_name));
@@ -119,7 +124,7 @@ export default function ProjectModal({
         onProjectChange();
       }
     } catch (error) {
-      console.error(error);
+      throw error;
     } finally {
       setIsSubmittingExistingProject(false);
     }
@@ -155,10 +160,10 @@ export default function ProjectModal({
                 <DialogHeader>
                   <DialogTitle>Create Project</DialogTitle>
                   <DialogDescription>
-                    Create a new project for the Internet Computer
+                    Initialize a Soroban project with an example contract
                   </DialogDescription>
                 </DialogHeader>
-                <ScrollArea className="max-h-[350px] overflow-y-auto">
+                <ScrollArea className="max-h-[450px] overflow-y-auto">
                   <div>
                     <div className="space-y-4 py-4 pb-4">
                       <div>
@@ -173,7 +178,7 @@ export default function ProjectModal({
                               <FormControl>
                                 <Input
                                   {...field}
-                                  placeholder="My Social Network"
+                                  placeholder="Hello Soroban"
                                   className="w-full"
                                 />
                               </FormControl>
@@ -219,29 +224,83 @@ export default function ProjectModal({
                       </div>
                       <div className="space-y-4">
                         <FormLabel className="text-small"> Options</FormLabel>
-                        <FormField
-                          control={createNewProjectform.control}
-                          name="frontend_status"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                              <div className="space-y-0.5">
-                                <FormLabel className="text-base">
-                                  Activate Frontend
-                                </FormLabel>
-                                <FormDescription className="mr-4">
-                                  Installs the template frontend code for the
-                                  default project canister.
-                                </FormDescription>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
+                        <div className="space-y-3">
+                          <FormField
+                            control={createNewProjectform.control}
+                            name="include_examples"
+                            render={({ field }) => (
+                              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                                <div className="space-y-0.5">
+                                  <FormLabel className="text-base">
+                                    With Example
+                                  </FormLabel>
+                                  <FormDescription className="mr-4">
+                                    Specify Soroban example contracts to
+                                    include. A hello-world contract will be
+                                    included by default
+                                  </FormDescription>
+                                </div>
+                                <FormControl>
+                                  <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                  />
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                        {createNewProjectform.watch("include_examples") && (
+                          <div className="space-y-3">
+                            <FormField
+                              control={createNewProjectform.control}
+                              name="with_example"
+                              render={({ field }) => (
+                                <FormControl>
+                                  <Select
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                  >
+                                    <SelectTrigger className="w-full">
+                                      <SelectValue placeholder="Select an example" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {[
+                                        "account",
+                                        "alloc",
+                                        "atomic-multiswap",
+                                        "atomic-swap",
+                                        "auth",
+                                        "cross-contract",
+                                        "custom-types",
+                                        "deep-contract-auth",
+                                        "deployer",
+                                        "errors",
+                                        "events",
+                                        "fuzzing",
+                                        "increment",
+                                        "liquidity-pool",
+                                        "logging",
+                                        "simple-account",
+                                        "single-offer",
+                                        "timelock",
+                                        "token",
+                                        "upgradeable-contract",
+                                      ].map((exampleValue) => (
+                                        <SelectItem
+                                          key={exampleValue}
+                                          value={exampleValue}
+                                        >
+                                          {exampleValue}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </FormControl>
+                              )}
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -280,7 +339,7 @@ export default function ProjectModal({
                 <DialogHeader>
                   <DialogTitle>Import Existing Project</DialogTitle>
                   <DialogDescription>
-                    Create a new project for the Internet Computer
+                    Import existing Soroban project from your computer
                   </DialogDescription>
                 </DialogHeader>
                 <div>

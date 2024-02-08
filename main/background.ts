@@ -202,8 +202,7 @@ if (isProd) {
 
   async function retrieveAndStoreIdentities() {
     try {
-      const result = await executeSorobanCommand("config", "identity", ["ls"]);
-      // Split the result string into an array of identities
+      const result = await executeSorobanCommand("keys", "ls");
       const identityNames = result
         .split("\n")
         .filter(

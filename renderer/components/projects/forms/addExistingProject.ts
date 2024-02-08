@@ -3,10 +3,11 @@ import * as z from "zod";
 export const addExistingProjectFormSchema = z.object({
   project_name: z
     .string()
-    .min(3, {
-      message: "Project name must be at least 3 characters long",
-    })
-    .max(255),
+    .min(3, { message: "Project name must be at least 3 characters long" })
+    .max(40, { message: "Project name must be at most 40 characters long" })
+    .regex(/^[A-Za-z0-9]+$/, {
+      message: "Project name must only contain letters and digits",
+    }),
   path: z
     .string()
     .min(3, {
@@ -19,7 +20,6 @@ export async function onAddExistingProjectForm(
   data: z.infer<typeof addExistingProjectFormSchema>
 ) {
   try {
-    //check if it is a dfx project
     const result = await window.sorobanApi
       .isSorobanProject(data.path)
       .then(async () => {
@@ -31,6 +31,6 @@ export async function onAddExistingProjectForm(
 
     return result;
   } catch (error) {
-    console.error(`Error: ${error}`); // log error
+    throw error;
   }
 }

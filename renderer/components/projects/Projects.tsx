@@ -34,7 +34,6 @@ import { Alert, AlertDescription, AlertTitle } from "components/ui/alert";
 import { Button } from "components/ui/button";
 import { Input } from "components/ui/input";
 import { Loader2 } from "lucide-react";
-import { FolderCheck } from "lucide-react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -107,7 +106,6 @@ const ProjectCard = ({
           <div className="flex flex-col space-y-1 overflow-hidden">
             <CardTitle className="text-medium">{project.name}</CardTitle>
             <CardDescription className="truncate inline-flex items-center">
-              <FolderCheck className="w-4 h-4 mr-1" />
               {project.path.split("/").slice(-2)[0] +
                 "/" +
                 project.path.split("/").slice(-2)[1]}
