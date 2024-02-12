@@ -12,11 +12,16 @@ export const newIdentityFormSchema = z.object({
   seed: z.string().optional(),
   as_secret: z.boolean().optional(),
   global: z.boolean().optional(),
-  hd_path: z.string().optional(),
+  hd_path: z
+    .string()
+    .regex(
+      /^(m\/)?(\d+'?\/)*(\d+'?)$/,
+      "HD path must follow a structure like m/44'/0'/0'/0."
+    )
+    .optional(),
   default_seed: z.boolean().optional(),
-  // RPC Options
   config_dir: z.string().optional(),
-  rpc_url: z.string().optional(),
+  rpc_url: z.string().url("RPC URL must be a valid URL.").optional(),
   network_passphrase: z.string().optional(),
   network: z.string().optional(),
 });
@@ -29,17 +34,16 @@ export async function onNewIdentityFormSubmit(
     const subcommand = "generate";
     const args = [data.identity_name];
     const flags = [
-      data.seed ? `--seed=${data.seed}` : "",
-      data.as_secret ? "--as-secret" : "",
-      data.global ? "--global" : "",
-      data.hd_path ? `--hd-path=${data.hd_path}` : "",
-      data.default_seed ? "--default-seed" : "",
-      // Add RPC options if needed
-      data.rpc_url ? `--rpc-url=${data.rpc_url}` : "",
+      data.seed ? `--seed "${data.seed}"` : null,
+      data.as_secret ? "--as-secret" : null,
+      data.global ? "--global" : null,
+      data.hd_path ? `--hd-path "${data.hd_path}"` : null,
+      data.default_seed ? "--default-seed" : null,
+      data.rpc_url ? `--rpc-url "${data.rpc_url}"` : null,
       data.network_passphrase
-        ? `--network-passphrase=${data.network_passphrase}`
-        : "",
-      data.network ? `--network=${data.network}` : "",
+        ? `--network-passphrase "${data.network_passphrase}"`
+        : null,
+      data.network ? `--network "${data.network}"` : null,
     ].filter(Boolean);
 
     await window.sorobanApi.runSorobanCommand(command, subcommand, args, flags);

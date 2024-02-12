@@ -17,14 +17,6 @@ import {
 } from "components/ui/accordion";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "components/ui/select";
-
-import {
   Form,
   FormControl,
   FormDescription,
@@ -53,18 +45,16 @@ import {
 } from "components/identities/forms/createNewIdentity";
 
 import {
-  importIdentityFormSchema,
-  onimportIdentityFormSubmit,
-} from "components/identities/forms/importNewIdentity";
+  addIdentityFormSchema,
+  onAddIdentityFormSubmit,
+} from "components/identities/forms/addNewIdentity";
 
 import { useToast } from "components/ui/use-toast";
 import {
   identityCreateSuccess,
   identityCreateError,
-  identityImportSuccess,
-  identityImportError,
-  identityInternetIdentityLoginSuccess,
-  identityInternetIdentityLoginError,
+  identityAddSuccess,
+  identityAddError,
 } from "lib/notifications";
 
 export default function IdentityModal({
@@ -73,9 +63,7 @@ export default function IdentityModal({
 }) {
   const [isSubmittingCreateIdentity, setIsSubmittingCreateIdentity] =
     useState(false);
-  const [isSubmittingImportIdentity, setIsSubmittingImportIdentity] =
-    useState(false);
-  const [isSubmittingLoginWithII, setIsSubmittingLoginWithII] = useState(false);
+  const [isSubmittingAddIdentity, setIsSubmittingAddIdentity] = useState(false);
 
   const { toast } = useToast();
 
@@ -84,30 +72,29 @@ export default function IdentityModal({
       await onNewIdentityFormSubmit(data).then((res) => {
         //@ts-ignore
         if (res) {
-          toast(identityCreateSuccess(res));
+          toast(identityCreateSuccess(data.identity_name));
           setShowCreateIdentityDialog(false);
         }
       });
     } catch (error) {
-      // toast(identityCreateError(error));
+      toast(identityCreateError(data.identity_name, error));
       console.log(error);
     } finally {
       setShowCreateIdentityDialog(false);
     }
   };
 
-  const handleImportIdentity = async (data) => {
+  const handleAddIdentity = async (data) => {
     try {
-      await onimportIdentityFormSubmit(data).then((res) => {
+      await onAddIdentityFormSubmit(data).then((res) => {
         //@ts-ignore
         if (res) {
-          toast(identityImportSuccess(res));
+          toast(identityAddSuccess(data.identity_name));
           setShowCreateIdentityDialog(false);
         }
       });
     } catch (error) {
-      // toast(identityImportError(error));
-      console.log(error);
+      toast(identityAddError(data.identity_name, error));
     } finally {
       setShowCreateIdentityDialog(false);
     }
@@ -117,8 +104,8 @@ export default function IdentityModal({
     resolver: zodResolver(newIdentityFormSchema),
   });
 
-  const importIdentityForm = useForm<z.infer<typeof importIdentityFormSchema>>({
-    resolver: zodResolver(importIdentityFormSchema),
+  const addIdentityForm = useForm<z.infer<typeof addIdentityFormSchema>>({
+    resolver: zodResolver(addIdentityFormSchema),
   });
 
   async function getDirectoryPath() {
@@ -138,8 +125,8 @@ export default function IdentityModal({
       <DialogContent>
         <Tabs defaultValue="generate">
           <TabsList className="mb-4">
-            <TabsTrigger value="generate">New Identity</TabsTrigger>
-            <TabsTrigger value="add">Import Existing</TabsTrigger>
+            <TabsTrigger value="generate">Generate Identity</TabsTrigger>
+            <TabsTrigger value="add">Add Identity</TabsTrigger>
           </TabsList>
           <TabsContent value="generate">
             <Form {...newIdentityForm}>
@@ -147,7 +134,7 @@ export default function IdentityModal({
                 onSubmit={newIdentityForm.handleSubmit(handleCreateNewIdentity)}
               >
                 <DialogHeader className="space-y-3">
-                  <DialogTitle>Create New Identity</DialogTitle>
+                  <DialogTitle>Generate New Identity</DialogTitle>
                   <DialogDescription>
                     Identities you will add are global. They are not confined to
                     a specific project context.
@@ -155,7 +142,7 @@ export default function IdentityModal({
                 </DialogHeader>
                 <ScrollArea className="max-h-[540px] overflow-y-auto pr-1">
                   <div>
-                    <div className="py-4 pb-6">
+                    <div className="space-y-4 py-4 pb-6">
                       <div className="space-y-3">
                         <FormField
                           control={newIdentityForm.control}
@@ -170,6 +157,62 @@ export default function IdentityModal({
                                   {...field}
                                   id="identity_name"
                                   placeholder="alice"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <div className="space-y-3">
+                        <FormField
+                          control={newIdentityForm.control}
+                          name="rpc_url"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-small">
+                                Network Passphrase
+                              </FormLabel>
+                              <FormControl>
+                                <Input {...field} id="rpc_url" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <FormField
+                          control={newIdentityForm.control}
+                          name="rpc_url"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-small">
+                                Network
+                              </FormLabel>
+                              <FormControl>
+                                <Input {...field} id="rpc_url" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <FormField
+                          control={newIdentityForm.control}
+                          name="rpc_url"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-small">
+                                RPC Url
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  id="rpc_url"
+                                  placeholder="http://localhost:1234"
                                 />
                               </FormControl>
                               <FormMessage />
@@ -356,68 +399,6 @@ export default function IdentityModal({
                             </div>
                           </AccordionContent>
                         </AccordionItem>
-                        <AccordionItem value="rpc-options">
-                          <AccordionTrigger>Options (RPC)</AccordionTrigger>
-                          <AccordionContent>
-                            <div className="space-y-4">
-                              <div className="space-y-3">
-                                <FormField
-                                  control={newIdentityForm.control}
-                                  name="rpc_url"
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormLabel className="text-small">
-                                        RPC URL
-                                      </FormLabel>
-                                      <FormControl>
-                                        <Input
-                                          {...field}
-                                          id="rpc_url"
-                                          placeholder="http://localhost:1234"
-                                        />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-                              <div className="space-y-3">
-                                <FormField
-                                  control={newIdentityForm.control}
-                                  name="rpc_url"
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormLabel className="text-small">
-                                        Network Passphrase
-                                      </FormLabel>
-                                      <FormControl>
-                                        <Input {...field} id="rpc_url" />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-                              <div className="space-y-3">
-                                <FormField
-                                  control={newIdentityForm.control}
-                                  name="rpc_url"
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormLabel className="text-small">
-                                        Network
-                                      </FormLabel>
-                                      <FormControl>
-                                        <Input {...field} id="rpc_url" />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-                            </div>
-                          </AccordionContent>
-                        </AccordionItem>
                       </Accordion>
                     </div>
                   </div>
@@ -445,15 +426,12 @@ export default function IdentityModal({
             </Form>
           </TabsContent>
           <TabsContent value="add">
-            <Form {...importIdentityForm}>
-              <form
-                onSubmit={importIdentityForm.handleSubmit(handleImportIdentity)}
-              >
+            <Form {...addIdentityForm}>
+              <form onSubmit={addIdentityForm.handleSubmit(handleAddIdentity)}>
                 <DialogHeader className="space-y-3">
-                  <DialogTitle>Import Identity</DialogTitle>
+                  <DialogTitle>Add Identity</DialogTitle>
                   <DialogDescription>
-                    Create a user identity by importing the user’s key
-                    information or security certificate from a PEM file.
+                    Add a new identity (keypair, ledger, macOS keychain)
                   </DialogDescription>
                 </DialogHeader>
                 <ScrollArea className="max-h-[335px] overflow-y-auto">
@@ -461,7 +439,7 @@ export default function IdentityModal({
                     <div className="space-y-4 py-4 pb-6">
                       <div className="space-y-3">
                         <FormField
-                          control={newIdentityForm.control}
+                          control={addIdentityForm.control}
                           name="identity_name"
                           render={({ field }) => (
                             <FormItem>
@@ -482,19 +460,39 @@ export default function IdentityModal({
                       </div>
                       <div className="space-y-3">
                         <FormField
-                          control={importIdentityForm.control}
-                          name="pem_identity"
+                          control={addIdentityForm.control}
+                          name="seed_phrase"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-small">
-                                Pem File
+                                Seed Phrase
                               </FormLabel>
                               <FormControl>
                                 <Input
                                   {...field}
-                                  id="pem_identity"
-                                  type="file"
-                                  placeholder="alice"
+                                  id="seed_phrase"
+                                  placeholder="YOUR_SEED_PHRASE"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <FormField
+                          control={addIdentityForm.control}
+                          name="secret_key"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-small">
+                                Secret Key
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  id="secret_key"
+                                  placeholder="YOUR_SECRET_KEY"
                                 />
                               </FormControl>
                               <FormMessage />
@@ -509,49 +507,8 @@ export default function IdentityModal({
                             <div className="space-y-4">
                               <div className="space-y-3">
                                 <FormField
-                                  control={importIdentityForm.control}
-                                  name="storage_mode"
-                                  render={({ field }) => (
-                                    <FormItem className="space-y-3">
-                                      <FormLabel>
-                                        Storage Mode (Optional)
-                                      </FormLabel>
-                                      <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
-                                      >
-                                        <FormControl>
-                                          <SelectTrigger>
-                                            <SelectValue placeholder="Select a storage mode" />
-                                          </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                          <SelectItem value="password-protected">
-                                            Password Protected
-                                          </SelectItem>
-                                          <SelectItem value="plain-text">
-                                            Plain Text
-                                          </SelectItem>
-                                          <SelectItem value="null">
-                                            No Storage Mode
-                                          </SelectItem>
-                                        </SelectContent>
-                                      </Select>
-                                      <FormDescription>
-                                        Plaintext PEM files are still available
-                                        (e.g. for use in non-interactive
-                                        situations like CI), but not recommended
-                                        for use since they put the keys at risk.
-                                      </FormDescription>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-                              <div className="space-y-3">
-                                <FormField
-                                  control={importIdentityForm.control}
-                                  name="force"
+                                  control={addIdentityForm.control}
+                                  name="global"
                                   render={({ field }) => (
                                     <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                                       <FormControl>
@@ -561,12 +518,48 @@ export default function IdentityModal({
                                         />
                                       </FormControl>
                                       <div className="space-y-1 leading-none">
-                                        <FormLabel>Force</FormLabel>
+                                        <FormLabel>Global</FormLabel>
                                         <FormDescription>
-                                          If the identity already exists, remove
-                                          and re-import it.
+                                          Use global config
                                         </FormDescription>
                                       </div>
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                              <div className="space-y-3">
+                                <FormField
+                                  control={addIdentityForm.control}
+                                  name="config_dir"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel className="text-small">
+                                        Config Directory (Testing)
+                                      </FormLabel>
+                                      <FormControl>
+                                        <div className="flex w-full items-center space-x-2">
+                                          <Input
+                                            type="text"
+                                            readOnly
+                                            value={field.value}
+                                          />
+                                          <Button
+                                            type="button"
+                                            onClick={() => {
+                                              getDirectoryPath().then(
+                                                (path) => {
+                                                  if (path) {
+                                                    field.onChange(path);
+                                                  }
+                                                }
+                                              );
+                                            }}
+                                          >
+                                            Select
+                                          </Button>
+                                        </div>
+                                      </FormControl>
+                                      <FormMessage />
                                     </FormItem>
                                   )}
                                 />
@@ -586,14 +579,14 @@ export default function IdentityModal({
                   >
                     Cancel
                   </Button>
-                  {isSubmittingImportIdentity ? (
+                  {isSubmittingAddIdentity ? (
                     <Button disabled>
                       {" "}
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Importing...
+                      Adding...
                     </Button>
                   ) : (
-                    <Button type="submit">Import</Button>
+                    <Button type="submit">Add</Button>
                   )}
                 </DialogFooter>
               </form>

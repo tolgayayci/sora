@@ -6,7 +6,7 @@ function Settings() {
   return (
     <React.Fragment>
       <Head>
-        <title>Settings - DFINITY DFX</title>
+        <title>Settings - Soroban</title>
       </Head>
       <SettingsComponent />
     </React.Fragment>
