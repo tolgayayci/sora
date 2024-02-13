@@ -14,7 +14,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     async function checkIsSorobanInstalled() {
       try {
         const result = await window.sorobanApi.isSorobanInstalled();
-        console.log(result);
         setIsSorobanInstalled(result);
       } catch (error) {
         setIsSorobanInstalled(false);

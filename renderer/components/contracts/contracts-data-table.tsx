@@ -44,7 +44,7 @@ interface DataTableProps<TData, TValue> {
   data: any[];
 }
 
-export function DataTable<TData, TValue>({
+export function ContractsDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {

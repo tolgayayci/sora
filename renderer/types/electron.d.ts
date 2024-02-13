@@ -14,6 +14,7 @@ interface Versions {
   manageIdentities: (action, identity?, newIdentity?) => Promise<any>;
   isSorobanProject: (projectPath) => Promise<boolean>;
   isSorobanInstalled: () => Promise<boolean>;
+  listContracts: (directoryPath) => Promise<any>;
   jsonRead: (filePath, directoryPath) => Promise<any>;
   jsonWrite: (filePath, directoryPath, data) => Promise<any>;
   reloadApplication: () => Promise<void>;

@@ -12,12 +12,10 @@ export async function onRemoveProjectFormSubmit(
   data: z.infer<typeof removeProjectFormSchema>
 ) {
   try {
-    const result = await window.sorobanApi.manageProjects("delete", {
+    await window.sorobanApi.manageProjects("delete", {
       path: data.path,
     });
-
-    return result;
   } catch (error) {
-    console.error(`Error: ${error}`); // log error
+    throw error;
   }
 }

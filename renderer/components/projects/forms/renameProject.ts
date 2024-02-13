@@ -39,7 +39,6 @@ export async function onRenameProjectFormSubmit(
 
     return result;
   } catch (error) {
-    console.error(`Error renaming project: ${error}`);
-    throw error; // Rethrow error to be handled by the caller
+    throw error;
   }
 }

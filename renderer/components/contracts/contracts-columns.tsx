@@ -8,11 +8,15 @@ export type Network = {
   [key: string]: any;
 };
 
-export const createColumns = (): ColumnDef<Network>[] => {
+export const createContractsColumns = (): ColumnDef<Network>[] => {
   return [
     {
       accessorKey: "name",
-      header: "Network Name",
+      header: "Contract Name",
+    },
+    {
+      accessorKey: "projectName",
+      header: "Project Name",
     },
     {
       accessorKey: "details",
@@ -20,11 +24,9 @@ export const createColumns = (): ColumnDef<Network>[] => {
       cell: ({ row }) => (
         <div className="text-right">
           <Link
-            href={`/canisters/${encodeURIComponent(
-              row.original.projectPath
-            )}/${encodeURIComponent(row.original.name)}`}
+            href={`/contracts/${encodeURIComponent(row.original.projectPath)}`}
           >
-            <Button>Canister Actions</Button>
+            <Button>Contract Actions</Button>
           </Link>
         </div>
       ),

@@ -47,6 +47,9 @@ const handler = {
   isSorobanInstalled: async () => {
     return ipcRenderer.invoke("is-soroban-installed");
   },
+  listContracts: async (directoryPath) => {
+    return ipcRenderer.invoke("contracts:list", directoryPath);
+  },
   jsonRead: async (filePath, directoryPath) => {
     return ipcRenderer.invoke("json:read", filePath, directoryPath);
   },

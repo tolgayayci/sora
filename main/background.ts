@@ -8,6 +8,7 @@ import { createWindow } from "./helpers";
 import { executeSorobanCommand } from "./helpers/soroban-helper";
 import { handleProjects } from "./helpers/manage-projects";
 import { handleIdentities } from "./helpers/manage-identities";
+import { findContracts } from "./helpers/find-contracts";
 
 const path = require("node:path");
 const fs = require("fs");
@@ -114,6 +115,16 @@ if (isProd) {
     } catch (error) {
       console.error("Error on projects:", error);
       throw error;
+    }
+  });
+
+  ipcMain.handle("contracts:list", async (event, directoryPath) => {
+    try {
+      const contractFiles = findContracts(directoryPath);
+      return contractFiles;
+    } catch (error) {
+      console.error("Error on projects:", error);
+      return false;
     }
   });
 

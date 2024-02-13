@@ -121,8 +121,8 @@ const ProjectCard = ({
         >
           Remove
         </Button>
-        <Link href={`/projects/${encodeURIComponent(project.path)}`}>
-          <Button>Manage</Button>
+        <Link href={`/contracts/${encodeURIComponent(project.path)}`}>
+          <Button>Contracts</Button>
         </Link>
         <Dialog
           open={showRemoveProjectDialog}
