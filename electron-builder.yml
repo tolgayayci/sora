@@ -1,0 +1,12 @@
+appId: com.example.nextron
+productName: soroban-cli-gui
+copyright: Copyright © 2024 Tolga Yaycı
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null
