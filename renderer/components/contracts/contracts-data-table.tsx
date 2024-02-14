@@ -74,7 +74,7 @@ export function ContractsDataTable<TData, TValue>({
     <div>
       <div className="flex items-center mt-3 mb-6">
         <Input
-          placeholder="Search Between Canisters"
+          placeholder="Search Between Contracts"
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)

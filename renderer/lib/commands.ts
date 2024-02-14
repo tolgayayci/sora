@@ -1,55 +1,5 @@
 export const commands = [
   {
-    label: "asset",
-    value: "asset",
-    args: [],
-    options: [
-      {
-        name: "--help",
-        type: "flag",
-        description: "Print help",
-      },
-      {
-        name: "id",
-        type: "command",
-        description:
-          "Get Id of builtin Soroban Asset Contract. Deprecated, use `soroban contract id asset` instead",
-      },
-      {
-        name: "deploy",
-        type: "command",
-        description: "Deploy builtin Soroban Asset Contract",
-      },
-    ],
-  },
-  {
-    label: "bindings",
-    value: "bindings",
-    args: [],
-    options: [
-      {
-        name: "--help",
-        type: "flag",
-        description: "Print help",
-      },
-      {
-        name: "json",
-        type: "command",
-        description: "Generate Json Bindings",
-      },
-      {
-        name: "rust",
-        type: "command",
-        description: "Generate Rust bindings",
-      },
-      {
-        name: "typescript",
-        type: "command",
-        description: "Generate a TypeScript / JavaScript package",
-      },
-    ],
-  },
-  {
     label: "build",
     value: "build",
     args: [],
@@ -360,28 +310,6 @@ export const commands = [
         type: "argument",
         placeholder: "<NETWORK>",
         description: "Name of network to use from config",
-      },
-    ],
-  },
-  {
-    label: "id",
-    value: "id",
-    args: [],
-    options: [
-      {
-        name: "--help",
-        type: "flag",
-        description: "Print help",
-      },
-      {
-        name: "asset",
-        type: "command",
-        description: "Deploy builtin Soroban Asset Contract",
-      },
-      {
-        name: "wasm",
-        type: "command",
-        description: "Deploy normal Wasm Contract",
       },
     ],
   },

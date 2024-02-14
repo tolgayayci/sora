@@ -48,7 +48,7 @@ const CliCommandSelector = ({
   const [commandArgs, setCommandArgs] = useState({});
   const [commandOptions, setCommandOptions] = useState({});
   const [isRunningCommand, setIsRunningCommand] = useState(false);
-  const [latestCommand, setLatestCommand] = useState(""); // State to hold the latest command
+  const [latestCommand, setLatestCommand] = useState("");
 
   const updateLatestCommand = () => {
     const selectedCommandDetails = commands.find(
@@ -127,7 +127,6 @@ const CliCommandSelector = ({
     try {
       await runCli(selectedCommand, Object.values(commandArgs)).then(() => {
         // toast success message
-        console.log("Command executed successfully");
       });
     } catch (error) {
       // toast error message
@@ -164,6 +163,10 @@ const CliCommandSelector = ({
           isNaN(arg) ? arg : parseInt(arg, 10)
         );
 
+        console.log(
+          command + " " + processedArgs + " " + optionsArray + " " + path
+        );
+
         const result = await window.sorobanApi.runSorobanCommand(
           "contract",
           command,
@@ -172,7 +175,7 @@ const CliCommandSelector = ({
           path
         );
 
-        console.log("Command executed successfully:", result);
+        console.log("Result:", result);
 
         setCommandError("");
         setCommandOutput(result);
@@ -180,6 +183,7 @@ const CliCommandSelector = ({
     } catch (error) {
       setCommandError(`${error.message}`);
       setCommandOutput(""); // Clear any previous output
+      throw error;
     }
   };
 

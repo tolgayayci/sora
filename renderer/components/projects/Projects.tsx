@@ -277,7 +277,7 @@ export default function ProjectsComponent() {
           <div className="my-6">
             <Input
               type="search"
-              placeholder={`Search for an identity between ${projects.length} projects`}
+              placeholder={`Search for a project between ${projects.length} projects`}
               onChange={handleSearchChange}
               value={searchQuery}
             />

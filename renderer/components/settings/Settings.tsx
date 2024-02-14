@@ -355,7 +355,7 @@ export default function SettingsComponent() {
           <div className="my-6">
             <Input
               type="search"
-              placeholder={`Search for an identity between ${networks.length} projects`}
+              placeholder={`Search for a network between ${networks.length} networks`}
               onChange={handleSearchChange}
               value={searchQuery}
             />

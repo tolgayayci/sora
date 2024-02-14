@@ -140,7 +140,7 @@ export default function IdentityModal({
                     a specific project context.
                   </DialogDescription>
                 </DialogHeader>
-                <ScrollArea className="max-h-[540px] overflow-y-auto pr-1">
+                <ScrollArea className="max-h-[calc(70vh-106px)] overflow-y-auto pr-1">
                   <div>
                     <div className="space-y-4 py-4 pb-6">
                       <div className="space-y-3">
@@ -168,14 +168,14 @@ export default function IdentityModal({
                       <div className="space-y-3">
                         <FormField
                           control={newIdentityForm.control}
-                          name="rpc_url"
+                          name="network_passphrase"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-small">
                                 Network Passphrase
                               </FormLabel>
                               <FormControl>
-                                <Input {...field} id="rpc_url" />
+                                <Input {...field} id="network_passphrase" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -185,14 +185,14 @@ export default function IdentityModal({
                       <div className="space-y-3">
                         <FormField
                           control={newIdentityForm.control}
-                          name="rpc_url"
+                          name="network"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-small">
                                 Network
                               </FormLabel>
                               <FormControl>
-                                <Input {...field} id="rpc_url" />
+                                <Input {...field} id="network" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -434,7 +434,7 @@ export default function IdentityModal({
                     Add a new identity (keypair, ledger, macOS keychain)
                   </DialogDescription>
                 </DialogHeader>
-                <ScrollArea className="max-h-[335px] overflow-y-auto">
+                <ScrollArea className="max-h-[calc(70vh-106px)] overflow-y-auto">
                   <div>
                     <div className="space-y-4 py-4 pb-6">
                       <div className="space-y-3">

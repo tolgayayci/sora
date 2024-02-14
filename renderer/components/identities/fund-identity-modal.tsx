@@ -96,7 +96,7 @@ export const FundIdentityModal = ({ identity, isOpen, onClose }) => {
                 Fund an identity on a test network
               </DialogDescription>
             </DialogHeader>
-            <ScrollArea className="max-h-[450px] overflow-y-auto">
+            <ScrollArea className="max-h-[calc(70vh-106px)] overflow-y-auto">
               <div>
                 <div className="space-y-3 py-4 pb-4">
                   <div className="space-y-3">

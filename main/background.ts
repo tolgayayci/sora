@@ -1,5 +1,5 @@
-// const fixPath = require("fix-path");
-// fixPath();
+const fixPath = require("fix-path");
+fixPath();
 
 import { app, ipcMain, dialog } from "electron";
 import serve from "electron-serve";
@@ -171,13 +171,13 @@ if (isProd) {
     try {
       if (mainWindow) {
         const result = await executeSorobanCommand("--version");
-        const isDfxInstalled = result.trim().startsWith("soroban");
-        return isDfxInstalled;
+        const isSorobanInstalled = result.trim().startsWith("soroban");
+        return isSorobanInstalled;
       } else {
         console.error("Main window not found");
       }
     } catch (error) {
-      console.error(`Error while checking for Dfinity installation: ${error}`);
+      console.error(`Error while checking for Soroban installation: ${error}`);
       return false;
     }
   });
@@ -243,7 +243,7 @@ if (isProd) {
       const envVars = retrieveAndStoreIdentities();
       return envVars;
     } catch (error) {
-      console.error("Failed to read identities from dfx:", error);
+      console.error("Failed to read identities from soroban:", error);
       return { error };
     }
   });

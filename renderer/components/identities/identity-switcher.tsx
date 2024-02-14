@@ -75,59 +75,51 @@ export default function IdentitySwitcher({ className }: TeamSwitcherProps) {
 
   const router = useRouter();
 
-  async function checkCurrentIdentity() {
-    try {
-      const result = await window.sorobanApi.runSorobanCommand(
-        "config",
-        "identity",
-        ["address"]
-      );
-
-      initialGroups[0].teams[0].label = result;
-      initialGroups[0].teams[0].value = result;
-      setSelectedIdentity({
-        label: showFirst3Last4(result),
-        value: result,
-      });
-
-      console.log();
-    } catch (error) {
-      console.log("Error invoking remote method:", error);
-    }
-  }
-
   async function checkIdentities() {
     try {
       await window.sorobanApi.refreshIdentities();
-      await window.sorobanApi.manageIdentities("list", "");
-
       const identities = await window.sorobanApi.manageIdentities("list", "");
 
-      const newGroups = updatedGroups.map((group) => {
-        if (group.label === "Identities") {
-          return {
-            ...group,
-            teams: identities.map((identity) => ({
-              label: showFirst3Last4(identity.name),
-              value: identity.name,
-            })),
-          };
-        }
-        return group;
-      });
+      const activeIdentity =
+        identities.find((identity) => identity.active) || identities[0];
 
-      // Update the state variable with the new groups data
-      setUpdatedGroups(newGroups);
+      const identityGroups = [
+        {
+          label: "Active Identity",
+          teams: activeIdentity
+            ? [
+                {
+                  label: showFirst3Last4(activeIdentity.name),
+                  value: activeIdentity.name,
+                },
+              ]
+            : [],
+        },
+        {
+          label: "Identities",
+          teams: identities.map((identity) => ({
+            label: showFirst3Last4(identity.name),
+            value: identity.name,
+          })),
+        },
+      ];
+
+      setUpdatedGroups(identityGroups);
+      setSelectedIdentity(
+        identityGroups[0].teams[0] || initialGroups[0].teams[0]
+      );
     } catch (error) {
       console.log("Error invoking remote method:", error);
     }
   }
 
-  async function changeIdentity(newIdentity: string) {
+  async function changeIdentity(identity) {
     try {
-      await window.sorobanApi.runSorobanCommand("identity", "use", [
-        newIdentity,
-      ]);
+      await window.sorobanApi.manageIdentities("setActive", {
+        name: identity,
+        active: true,
+      });
+      await window.sorobanApi.reloadApplication();
     } catch (error) {
       console.log("Error invoking remote method:", error);
     }
@@ -136,7 +128,6 @@ export default function IdentitySwitcher({ className }: TeamSwitcherProps) {
   const hasIdentities = updatedGroups.some((group) => group.teams.length > 0);
 
   useEffect(() => {
-    checkCurrentIdentity();
     checkIdentities();
   }, []);
 

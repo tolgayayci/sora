@@ -106,18 +106,6 @@ export default function IdentitiesComponent() {
     }
   }
 
-  async function checkCurrentIdentity() {
-    try {
-      const result = await window.sorobanApi.runSorobanCommand(
-        "keys",
-        "address"
-      );
-      return result;
-    } catch (error) {
-      console.error(`Error: ${error}`);
-    }
-  }
-
   const handleSearchChange = (e: any) => {
     e.preventDefault();
     setSearchQuery(e.target.value);
@@ -125,14 +113,6 @@ export default function IdentitiesComponent() {
 
   // Call checkIdentities when the component mounts
   useEffect(() => {
-    const fetchActiveIdentity = async () => {
-      const activeIdentity = await checkCurrentIdentity();
-      if (activeIdentity) {
-        setActiveIdentityName(activeIdentity);
-      }
-    };
-
-    fetchActiveIdentity();
     checkIdentities();
   }, []);
 

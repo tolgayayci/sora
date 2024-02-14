@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useProjects from "hooks/useProjects";
+import { useProjects } from "hooks/useProjects";
 
 import { createContractsColumns } from "components/contracts/contracts-columns";
 import { ContractsDataTable } from "components/contracts/contracts-data-table";

@@ -1,6 +1,6 @@
 appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2018 Yoshihide Shiono
+productName: soroban-cli-gui
+copyright: Copyright © 2024 Tolga Yaycı
 directories:
   output: dist
   buildResources: resources

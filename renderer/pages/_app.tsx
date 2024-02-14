@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
 import Layout from "components/layout";
 import SorobanNotInstalled from "components/common/is-soroban-installed";
+import { ThemeProvider } from "components/theme-provider";
 
 import "../styles/globals.css";
 
@@ -29,9 +30,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     return null;
   } else if (isSorobanInstalled) {
     return (
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
     );
   } else {
     return <SorobanNotInstalled />;

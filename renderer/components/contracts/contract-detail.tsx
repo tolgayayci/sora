@@ -1,22 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import useProjects from "hooks/useProjects";
+import { useProject } from "hooks/useProject";
 
 import CliCommandSelector from "components/contracts/command-selector";
+import CommandStatusConfig from "components/contracts/command-status-config";
 import { Button } from "components/ui/button";
 import { Separator } from "components/ui/separator";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "components/ui/dialog";
-
-import { ScrollArea, ScrollBar } from "components/ui/scroll-area";
-import { Alert, AlertDescription, AlertTitle } from "components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { Avatar, AvatarImage } from "components/ui/avatar";
 
 export default function ContractDetail({
   projectPath,
@@ -25,17 +15,23 @@ export default function ContractDetail({
 }) {
   const [commandOutput, setCommandOutput] = useState();
   const [commandError, setCommandError] = useState();
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
-  const project = useProjects(projectPath);
+  const project = useProject(projectPath);
 
   if (project) {
     return (
       <>
         <div className="flex flex-col w-full">
           <div className="flex items-center justify-between space-y-2 mb-4">
-            <h2 className="font-bold">{projectPath}</h2>
+            <div className="flex items-center">
+              <Avatar className="mr-4 h-10 w-10">
+                <AvatarImage
+                  src={`https://avatar.vercel.sh/${project.name}.png`}
+                  alt={project.name}
+                />
+              </Avatar>
+              <h2 className="font-bold">{project.name}</h2>
+            </div>
             <div className="space-x-2">
               <Link href={`/contracts`}>
                 <Button>View All Contracts</Button>
@@ -49,6 +45,14 @@ export default function ContractDetail({
                 path={projectPath}
                 setCommandError={setCommandError}
                 setCommandOutput={setCommandOutput}
+              />
+            </div>
+            <div className="w-2/5 pr-4">
+              <CommandStatusConfig
+                canister={project}
+                projectPath={projectPath}
+                commandOutput={commandOutput}
+                commandError={commandError}
               />
             </div>
           </div>

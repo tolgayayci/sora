@@ -26,6 +26,25 @@ export function handleIdentities(store, action, identity, newIdentity?) {
       };
       break;
 
+    case "setActive":
+      // First, reset the active state for all identities
+      identities = identities.map((i) => ({
+        ...i,
+        active: false,
+      }));
+
+      // Then, find and set the specified identity as active
+      const index = identities.findIndex((i) => i.name === identity.name);
+      if (index !== -1) {
+        identities[index].active = true;
+      } else {
+        throw new Error("Identity not found");
+      }
+
+      // Persist the updated identities list back to the store
+      store.set("identities", identities);
+      break;
+
     case "delete":
       const keyToDelete = identity.isInternetIdentity
         ? "internetIdentityPrincipal"

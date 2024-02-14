@@ -5,14 +5,14 @@ import ContractDetail from "components/contracts/contract-detail";
 
 function ContractDetailPage() {
   const router = useRouter();
-  const { projectPath, canisterName } = router.query;
+  const { path } = router.query;
 
   return (
     <React.Fragment>
       <Head>
         <title>Contract Actions - Soroban</title>
       </Head>
-      <ContractDetail projectPath={projectPath as string} />
+      <ContractDetail projectPath={path as string} />
     </React.Fragment>
   );
 }

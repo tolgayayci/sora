@@ -50,6 +50,7 @@ export async function onNewIdentityFormSubmit(
 
     await window.sorobanApi.manageIdentities("add", {
       name: data.identity_name,
+      active: false,
     });
 
     await window.sorobanApi.reloadApplication();

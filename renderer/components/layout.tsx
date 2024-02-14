@@ -3,7 +3,6 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { SideNav } from "components/sidebar-nav";
-import { ThemeProvider } from "components/theme-provider";
 import { ModeToggle } from "components/toggle-mode";
 import { ReloadToggle } from "components/toggle-reload";
 import IdentitySwitcher from "components/identities/identity-switcher";
@@ -49,17 +48,13 @@ export default function Layout({ children }: LayoutProps) {
   }, []);
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
+    <>
       <div className="flex flex-col h-screen w-full">
         {" "}
         <header className="flex flex-row items-center space-x-4 py-4 w-full justify-between border-b px-4">
           {theme === "dark" ? (
             <Image
+              key={theme}
               src="/images/soroban-dark.svg"
               width={120}
               height={20}
@@ -67,6 +62,7 @@ export default function Layout({ children }: LayoutProps) {
             />
           ) : (
             <Image
+              key={theme}
               src="/images/soroban-light.svg"
               width={120}
               height={20}
@@ -156,6 +152,6 @@ export default function Layout({ children }: LayoutProps) {
         </TooltipProvider>
       </div>
       <Toaster />
-    </ThemeProvider>
+    </>
   );
 }

@@ -12,7 +12,7 @@ export const createContractsColumns = (): ColumnDef<Network>[] => {
   return [
     {
       accessorKey: "name",
-      header: "Contract Name",
+      header: "Main Contract",
     },
     {
       accessorKey: "projectName",
