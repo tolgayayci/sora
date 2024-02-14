@@ -21,15 +21,15 @@ Now that you have soroban installed, you can install the SOROBAN CLI GUI applica
 ###  macOS (Apple Silicon | Intel)
 
 1. Download the latest release for macOS 
-   1. [Apple Silicon]()
-   2. [Intel]()
+   1. [Apple Silicon](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.0/soroban-cli-gui-0.1.0-arm64.dmg)
+   2. [Intel](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.0/soroban-cli-gui-0.1.0-universal.dmg)
 2. Open the downloaded file and drag the application to Applications folder.
 
 ### 🐧 Linux
 
 1. Download the latest release for Linux 
-   1. [App Image]()
-   2. [Snap]()
+   1. [App Image](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.0/soroban-cli-gui-0.1.0.AppImage)
+   2. [Snap](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.0/soroban-cli-gui_0.1.0_amd64.snap)
 
 2. Follow the general instructions to install the application on your Linux distribution.
    1. [App Image](https://docs.appimage.org/introduction/quickstart.html#ref-quickstart)
