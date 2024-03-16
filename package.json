@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "soroban-cli-gui",
-  "description": "Soroban Cli Cross Platform Desktop Application",
-  "version": "0.1.0",
+  "name": "sora",
+  "description": "Sora Cross Platform Desktop Application",
+  "version": "0.1.1",
   "author": "Tolga Yaycı <tolgayayci@protonmail.com>",
   "main": "app/background.js",
   "scripts": {

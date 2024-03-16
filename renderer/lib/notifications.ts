@@ -16,7 +16,7 @@ export const projectImportSuccess = (contentName: string) => ({
 
 export const projectImportError = (contentName: string) => ({
   title: "Error",
-  description: `Failed to import ${contentName}. Make sure you selected folder that containing Cargo.toml and includes stylus-sdk dependency!`,
+  description: `Failed to import ${contentName}. Make sure you selected folder that containing Cargo.toml and includes soroban-sdk dependency!`,
 });
 
 export const projectRenameSuccess = (contentName: string) => ({

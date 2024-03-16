@@ -97,6 +97,7 @@ if (isProd) {
           flags,
           path
         );
+
         return result;
       } catch (error) {
         console.error(`Error while executing Soroban command: ${error}`);

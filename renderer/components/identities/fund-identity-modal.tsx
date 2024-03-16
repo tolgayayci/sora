@@ -52,6 +52,7 @@ export const FundIdentityModal = ({ identity, isOpen, onClose }) => {
   const fundIdentityForm = useForm<z.infer<typeof fundIdentityFormSchema>>({
     resolver: zodResolver(fundIdentityFormSchema),
     defaultValues: {
+      identity_name: identity.name,
       global: false,
     },
   });

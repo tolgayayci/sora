@@ -17,9 +17,9 @@ export const fundIdentityFormSchema = z.object({
     )
     .optional(),
   global: z.boolean().optional(),
-  rpc_url: z.string().url("RPC URL must be a valid URL.").optional(),
-  network_passphrase: z.string().optional(),
-  network_name: z.string().optional(),
+  rpc_url: z.string().url("RPC URL must be a valid URL."),
+  network_passphrase: z.string(),
+  network_name: z.string(),
   config_dir: z.string().optional(),
 });
 

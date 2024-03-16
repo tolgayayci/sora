@@ -21,9 +21,9 @@ export const newIdentityFormSchema = z.object({
     .optional(),
   default_seed: z.boolean().optional(),
   config_dir: z.string().optional(),
-  rpc_url: z.string().url("RPC URL must be a valid URL.").optional(),
-  network_passphrase: z.string().optional(),
-  network: z.string().optional(),
+  rpc_url: z.string().url("RPC URL must be a valid URL."),
+  network_passphrase: z.string(),
+  network: z.string(),
 });
 
 export async function onNewIdentityFormSubmit(

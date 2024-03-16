@@ -19,24 +19,27 @@ export const createNewProjectFormSchema = z.object({
     .enum([
       "account",
       "alloc",
-      "atomic-multiswap",
-      "atomic-swap",
+      "atomic_multiswap",
+      "atomic_swap",
       "auth",
-      "cross-contract",
-      "custom-types",
-      "deep-contract-auth",
+      "cross_contract",
+      "custom_types",
+      "deep_contract_auth",
       "deployer",
       "errors",
+      "eth_abi",
       "events",
       "fuzzing",
       "increment",
-      "liquidity-pool",
+      "liquidity_pool",
       "logging",
-      "simple-account",
-      "single-offer",
+      "mint_lock",
+      "simple_account",
+      "single_offer",
       "timelock",
       "token",
-      "upgradeable-contract",
+      "upgradeable_contract",
+      "workspace",
     ])
     .optional(),
 });
@@ -47,13 +50,13 @@ export async function onCreateNewProjectForm(
   try {
     const command = "contract";
     const subcommand = "init";
-    const args = [data.path];
+    const args = [data.path + "/" + data.project_name];
     const flags = [
       data.include_examples ? `-w ${data.with_example}` : null,
     ].filter(Boolean);
 
     const result = await window.sorobanApi
-      .runSorobanCommand(command, subcommand, args, flags, data.path)
+      .runSorobanCommand(command, subcommand, args, flags)
       .then(async () => {
         await window.sorobanApi.manageProjects("add", {
           name: data.project_name,
