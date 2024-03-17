@@ -7,6 +7,7 @@
 
 SORA is a cross platform, electron based application designed to streamline the use of the Soroban CLI. It offers a user-friendly interface for managing projects, identities, networks, and contract methods with ease.
 
+You can watch the how-to-use demo [here](https://drive.google.com/file/d/1qHP7ZM4MlGhPxSExTLoUOV9m_2jbDKet/view?usp=drive_link).
 
 ## Installation
 
