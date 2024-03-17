@@ -1,14 +1,16 @@
-> :warning: **This application in still beta!** When using application be aware of something unexpected may be occur. **Use at your own risk**, don't try important things like very important identities and so on!
-
 # SORA
 
+<p align="center">
+  <img src="https://github.com/tolgayayci/sora/assets/37740842/5b644571-e581-4126-b87c-005e43be89ca" alt="Your Image Description" style="width: 50%;">
+</p>
+<br>
+
 SORA is a cross platform, electron based application designed to streamline the use of the Soroban CLI. It offers a user-friendly interface for managing projects, identities, networks, and contract methods with ease.
-  
----
+
 
 ## Installation
 
-To use this application, you must have soroban cli installed on your operating system. 
+To use this application, you must have `soroban-cli` installed on your operating system. 
 
 > This application is compatible with latest soroban v0.23.1, please make sure you have installed this version or newer of soroban!
 
@@ -18,14 +20,14 @@ To use this application, you must have soroban cli installed on your operating s
 - To verify that soroban properly installed, run:
 ```soroban --version```
 
-Now that you have soroban installed, you can install the SORA application by following the instructions below.
+Now that you have soroban installed, you can install the SORA by following the instructions below.
 
 ###  macOS (Apple Silicon | Intel)
 
 1. Download the latest release for macOS 
    1. [Apple Silicon](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.1/soroban-cli-gui-0.1.1-arm64.dmg)
    2. [Intel](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.1/soroban-cli-gui-0.1.1-universal.dmg)
-2. Open the downloaded file and drag the application to Applications folder.
+2. Open the downloaded file and drag the Sora to the Applications directory.
 
 ### 🐧 Linux
 
@@ -37,13 +39,14 @@ Now that you have soroban installed, you can install the SORA application by fol
    1. [App Image](https://docs.appimage.org/introduction/quickstart.html#ref-quickstart)
    2. [Snap](https://snapcraft.io/docs/installing-snapd)
 
-### 💻 Windows (Not Fully Supported)
+### 💻 Windows (Through WSL 2)
 
 You can still use the SORA application on Windows by following the instructions below.
 
 1. Install WSL 2 by following the instructions [on microsoft docs](https://learn.microsoft.com/en-us/windows/wsl/install).
-2. Once you have WSL installed, you can install soroban cli by following the instructions for Linux. 
-3. Follow the instructions for Linux to install the SORA application.
+2. Once you have WSL installed, you can install `soroban-cli` by following the instructions for Linux. 
+3. Follow the instructions for Linux to install the SORA.
+   
 ---
 
 ## Key Features
