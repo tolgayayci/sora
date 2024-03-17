@@ -10,7 +10,7 @@ SORA is a cross platform, electron based application designed to streamline the 
 
 To use this application, you must have soroban cli installed on your operating system. 
 
-> This application is compatible with latest soroban v0.23.0, please make sure you have installed this version or newer of soroban!
+> This application is compatible with latest soroban v0.23.1, please make sure you have installed this version or newer of soroban!
 
 - To install soroban, follow the instructions in link below:
   - [Install Soroban](https://soroban.stellar.org/docs/getting-started/setup)
@@ -23,15 +23,15 @@ Now that you have soroban installed, you can install the SORA application by fol
 ###  macOS (Apple Silicon | Intel)
 
 1. Download the latest release for macOS 
-   1. [Apple Silicon](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.0/soroban-cli-gui-0.1.0-arm64.dmg)
-   2. [Intel](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.0/soroban-cli-gui-0.1.0-universal.dmg)
+   1. [Apple Silicon](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.1/soroban-cli-gui-0.1.1-arm64.dmg)
+   2. [Intel](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.1/soroban-cli-gui-0.1.1-universal.dmg)
 2. Open the downloaded file and drag the application to Applications folder.
 
 ### 🐧 Linux
 
 1. Download the latest release for Linux 
-   1. [App Image](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.0/soroban-cli-gui-0.1.0.AppImage)
-   2. [Snap](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.0/soroban-cli-gui_0.1.0_amd64.snap)
+   1. [App Image](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.1/soroban-cli-gui-0.1.1.AppImage)
+   2. [Snap](https://github.com/tolgayayci/soroban-cli-gui/releases/download/v0.1.1/sora_0.1.1_amd64.snap)
 
 2. Follow the general instructions to install the application on your Linux distribution.
    1. [App Image](https://docs.appimage.org/introduction/quickstart.html#ref-quickstart)
@@ -50,11 +50,27 @@ You can still use the SORA application on Windows by following the instructions 
 
 **Project Management:** This feature allows users to efficiently manage their projects. It includes capabilities to create new projects, add existing ones from your device, and delete projects that are no longer needed. 
 
+| Projects Page  |  Create/Add Project | 
+|---|---|
+| <img width="1500" alt="projects-main" src="https://github.com/tolgayayci/soroban-cli-gui/assets/40897846/3c1fd9d1-d71c-4f44-8c54-4c2522214c7e"> | <img width="1500" alt="projects-form" src="https://github.com/tolgayayci/soroban-cli-gui/assets/40897846/1c674dc9-858b-415e-8c6d-ac9adfb6bab0"> |  
+
 **Identity Management:** This component focuses on managing user identities. Users can generate new identities, add existing ones, delete unnecessary identities, and seamlessly switch between different identities. 
+
+| Identities Page  | Generate/Add Identity  |  Fund Identity | 
+|---|---|---|
+| <img width="1500" alt="identities-main" src="https://github.com/tolgayayci/soroban-cli-gui/assets/40897846/de849bc6-ada3-4cf5-9a23-f3bdaea1b089"> | <img width="1500" alt="identities-modal" src="https://github.com/tolgayayci/soroban-cli-gui/assets/40897846/39924852-3552-4954-8c96-789dd4784011"> | <img width="1500" alt="identities-fund" src="https://github.com/tolgayayci/soroban-cli-gui/assets/40897846/5294a9f1-9ac7-4103-ba59-2e09e34340d8"> |
 
 **Contract Interactions:** This feature is centered around interactions with contracts (project based). Users can interact with them using a variety of contract commands, arguments, and flags through a user-friendly interface.
 
+| Contracts Page  | Command Selector  | 
+|---|---|
+| <img width="1500" alt="contracts-main" src="https://github.com/tolgayayci/soroban-cli-gui/assets/40897846/22fb2b33-dc43-46f7-b50e-ddea694045e3"> |  <img width="1500" alt="contracts-command" src="https://github.com/tolgayayci/soroban-cli-gui/assets/40897846/0b17a242-2c2e-4cf3-a9d1-6b804add3a67"> |  
+
 **Network Management:** Network management is facilitated through the ability to add and remove networks. Users can also display the list of networks.
+
+| Config Page  | Add Network  |
+|---|---|
+| <img width="1500" alt="config-main" src="https://github.com/tolgayayci/soroban-cli-gui/assets/40897846/0ef7fcf7-1fc7-4b1a-a1be-f4bfe26521d0">  |  <img width="1500" alt="config-modal" src="https://github.com/tolgayayci/soroban-cli-gui/assets/40897846/a90a1c64-d20e-45c8-a528-a7fa803d9eff">  | 
 
 > **P.S:** Review the [latest release notes](https://github.com/tolgayayci/soroban-cli-gui/releases/tag/v0.1.0) for more information about the features and capabilities of the SORA application.
 
