@@ -1,7 +1,9 @@
 // Import necessary components and hooks
 import * as React from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
+
 import { SideNav } from "components/sidebar-nav";
 import { ModeToggle } from "components/toggle-mode";
 import { ReloadToggle } from "components/toggle-reload";
@@ -15,6 +17,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "components/ui/resizable";
+import { ChatbotButton } from "components/chatbot/chatbot-button";
 
 import {
   HomeIcon,
@@ -26,8 +29,6 @@ import {
   BookKeyIcon,
   RadioIcon,
 } from "lucide-react";
-
-import { useTheme } from "next-themes";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -54,22 +55,22 @@ export default function Layout({ children }: LayoutProps) {
     <>
       <div className="flex flex-col h-screen w-full">
         {" "}
-        <header className="flex flex-row items-center space-x-4 py-4 w-full justify-between border-b px-4">
+        <header className="flex flex-row items-center space-x-4 py-4 w-full justify-between border-b pl-1 pr-4">
           {theme === "dark" ? (
             <Image
               key={theme}
-              src="/images/soroban-dark.svg"
+              src="/images/sora-light.svg"
               width={120}
-              height={20}
-              alt="solana_logo_dark"
+              height={25}
+              alt="sora_logo_dark"
             />
           ) : (
             <Image
               key={theme}
-              src="/images/soroban-light.svg"
+              src="/images/sora-dark.svg"
               width={120}
-              height={20}
-              alt="solana_logo_light"
+              height={25}
+              alt="sora_logo_light"
             />
           )}
           <div className="flex flex-row space-x-2">
@@ -182,6 +183,9 @@ export default function Layout({ children }: LayoutProps) {
                     ]}
                   />
                   <Separator />
+                </div>
+                <div className="p-2">
+                  <ChatbotButton />
                 </div>
               </div>
             </ResizablePanel>

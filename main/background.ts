@@ -17,6 +17,7 @@ import { findContracts } from "./helpers/find-contracts";
 import { checkEditors } from "./helpers/check-editors";
 import { openProjectInEditor } from "./helpers/open-project-in-editor";
 import { handleContractEvents } from "./helpers/manage-contract-events";
+import * as OpenAIHelper from "./helpers/openai-helper";
 
 const path = require("node:path");
 const fs = require("fs");
@@ -94,6 +95,13 @@ const schema = {
       ],
     },
   },
+  conversation: {
+    type: "object",
+    default: {
+      threadId: "",
+      assistantId: "",
+    },
+  },
 };
 
 const store = new Store({ schema });
@@ -163,6 +171,86 @@ if (isProd) {
       await shell.openExternal(url);
     }
   });
+
+  ipcMain.handle("openai:saveApiKey", async (_, apiKey: string) => {
+    return await OpenAIHelper.saveApiKey(apiKey);
+  });
+
+  ipcMain.handle("openai:getApiKey", async () => {
+    return await OpenAIHelper.getApiKey();
+  });
+
+  ipcMain.handle("openai:deleteApiKey", async () => {
+    return await OpenAIHelper.deleteApiKey();
+  });
+
+  ipcMain.handle("openai:createGeneralAssistant", async () => {
+    return await OpenAIHelper.createGeneralAssistant();
+  });
+
+  ipcMain.handle("openai:createCliAssistant", async () => {
+    return await OpenAIHelper.createCliAssistant();
+  });
+
+  ipcMain.handle("openai:createThread", async (_, initialMessage?: string) => {
+    return await OpenAIHelper.createThread(initialMessage);
+  });
+
+  ipcMain.handle(
+    "openai:sendMessage",
+    async (_, threadId: string, message: string) => {
+      return await OpenAIHelper.sendMessage(threadId, message);
+    }
+  );
+
+  ipcMain.handle(
+    "openai:runAssistant",
+    async (_, threadId: string, assistantId: string) => {
+      return await OpenAIHelper.runAssistant(threadId, assistantId);
+    }
+  );
+
+  ipcMain.handle(
+    "openai:getRunStatus",
+    async (_, threadId: string, runId: string) => {
+      return await OpenAIHelper.getRunStatus(threadId, runId);
+    }
+  );
+
+  ipcMain.handle("openai:getMessages", async (_, threadId: string) => {
+    return await OpenAIHelper.getMessages(threadId);
+  });
+
+  ipcMain.handle(
+    "openai:saveConversation",
+    async (
+      _,
+      threadId: string,
+      assistantId: string,
+      assistantType: "general" | "cli"
+    ) => {
+      return await OpenAIHelper.saveConversation(
+        store,
+        threadId,
+        assistantId,
+        assistantType
+      );
+    }
+  );
+
+  ipcMain.handle(
+    "openai:clearConversation",
+    async (_, assistantType: "general" | "cli") => {
+      return await OpenAIHelper.clearConversation(store, assistantType);
+    }
+  );
+
+  ipcMain.handle(
+    "openai:getConversation",
+    async (_, assistantType: "general" | "cli") => {
+      return await OpenAIHelper.getConversation(store, assistantType);
+    }
+  );
 
   ipcMain.handle("check-editors", async () => {
     return await checkEditors();
@@ -236,16 +324,23 @@ if (isProd) {
         if (
           command &&
           (command === "contract" ||
-            command === "lab xdr" ||
+            command === "lab" ||
+            command === "xdr" ||
             command === "events")
         ) {
           const formattedResult = result
             ? `Result: ${JSON.stringify(result)}`
             : "";
 
+          // Check the installed CLI type
+          const versionOutput = await executeSorobanCommand("--version");
+          const cliType = versionOutput.trim().startsWith("stellar")
+            ? "stellar"
+            : "soroban";
+
           commandLog.info(
-            "soroban",
-            command ? command : "",
+            cliType,
+            command,
             subcommand ? subcommand : "",
             args ? args.join(" ") : "",
             flags ? flags.join(" ") : "",
@@ -256,7 +351,7 @@ if (isProd) {
 
         return result;
       } catch (error) {
-        log.error("Error while executing Soroban command:", error);
+        log.error("Error while executing command:", error);
         throw error;
       }
     }
@@ -379,14 +474,64 @@ if (isProd) {
     try {
       if (mainWindow) {
         const result = await executeSorobanCommand("--version");
-        const isSorobanInstalled = result.trim().startsWith("soroban");
-        return isSorobanInstalled;
+        const trimmedResult = result.trim();
+
+        if (trimmedResult.startsWith("stellar")) {
+          const versionMatch = trimmedResult.match(/stellar (\d+\.\d+\.\d+)/);
+          if (versionMatch) {
+            return {
+              installed: true,
+              type: "stellar",
+              version: versionMatch[1],
+            };
+          }
+        } else if (trimmedResult.startsWith("soroban")) {
+          const versionMatch = trimmedResult.match(/soroban (\d+\.\d+\.\d+)/);
+          if (versionMatch) {
+            return {
+              installed: true,
+              type: "soroban",
+              version: versionMatch[1],
+            };
+          }
+        }
+
+        // If we couldn't parse the version, but it starts with stellar or soroban
+        if (
+          trimmedResult.startsWith("stellar") ||
+          trimmedResult.startsWith("soroban")
+        ) {
+          return {
+            installed: true,
+            type: trimmedResult.startsWith("stellar") ? "stellar" : "soroban",
+            version: "unknown",
+          };
+        }
+
+        // If we get here, the command succeeded but the output was unexpected
+        return {
+          installed: false,
+          type: null,
+          version: null,
+          error: "Unexpected output format",
+        };
       } else {
         console.error("Main window not found");
+        return {
+          installed: false,
+          type: null,
+          version: null,
+          error: "Main window not found",
+        };
       }
     } catch (error) {
       console.error(`Error while checking for Soroban installation: ${error}`);
-      return false;
+      return {
+        installed: false,
+        type: null,
+        version: null,
+        error: error.message || "Unknown error",
+      };
     }
   });
 
